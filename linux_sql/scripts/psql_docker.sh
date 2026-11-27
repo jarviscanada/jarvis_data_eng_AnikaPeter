@@ -5,9 +5,6 @@ cmd=$1
 db_username=$2
 db_password=$3
 
-docker container inspect jrvs-psql
-container_status=$?
-
 # User switch case to handle create|stop|start options
 case $cmd in
   create)
@@ -16,6 +13,9 @@ case $cmd in
       echo 'Create requires username and password'
       exit 1
     fi
+
+    docker container inspect jrvs-psql
+    container_status=$?
 
     # Check if the container is already created
     if [ $container_status -eq 0 ]; then
@@ -39,22 +39,23 @@ case $cmd in
   ;;
 
   start|stop)
-  # check if the container `jrvs-psql` is created or not
+  echo "checking if the container jrvs-psql is created or not:"
     docker container ls -a -f name=jrvs-psql
     container_status=$?
 
- # Start or stop the container
+  echo "Starting/stop the container:"
     docker container $cmd jrvs-psql
 
-# Check container status (try the following commands on terminal)
+  echo "Checking container status:"
     docker container inspect jrvs-psql
-    echo $?
+    container_status=$?
 
     if [ $container_status -eq 0 ]; then
       echo "Sucessful"
     fi
-    if [ $cmd=='stop' ]; then
+    if [ $cmd == 'stop' ]; then
       docker container rm jrvs-psql
+      echo jrvs-psql container removed
     fi
     ;;
 
