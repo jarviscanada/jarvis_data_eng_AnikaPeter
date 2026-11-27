@@ -53,8 +53,8 @@ case $cmd in
   fi
 
 
-  #echo "Checking container status:"
-   # docker container inspect jrvs-psql
+  echo "Checking container status:"
+  docker container inspect jrvs-psql
     #container_status=$?
 
     #if [ $container_status -eq 0 ]; then
