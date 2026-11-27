@@ -61,10 +61,10 @@ case $cmd in
      # echo "Sucessful"
     #fi
 
-    if [ $cmd == 'stop' ]; then
-      docker container rm jrvs-psql
-      echo jrvs-psql container stop and removed
-    fi
+    #if [ $cmd == 'stop' ]; then
+     # docker container rm jrvs-psql
+      #echo jrvs-psql container stop and removed
+    #fi
     ;;
 
   *)
