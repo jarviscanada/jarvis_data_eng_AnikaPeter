@@ -39,31 +39,22 @@ case $cmd in
   ;;
 
   start|stop)
-    # check if the container `jrvs-psql` is created or not
+  # check if the container `jrvs-psql` is created or not
     docker container ls -a -f name=jrvs-psql
-
     container_status=$?
-
-    if [ $container_status -eq 0 ]; then
-      echo 'Need to created container!'
-      exit 1
-    fi
 
  # Start or stop the container
     docker container $cmd jrvs-psql
-
-    if [ $cmd=='stop' ]; then
-          docker container rm jrvs-psql
-          exit 1
-        fi
 
 # Check container status (try the following commands on terminal)
     docker container inspect jrvs-psql
     echo $?
 
-
     if [ $container_status -eq 0 ]; then
-        echo "Sucessful"
+      echo "Sucessful"
+    fi
+    if [ $cmd=='stop' ]; then
+      docker container rm jrvs-psql
     fi
     ;;
 
