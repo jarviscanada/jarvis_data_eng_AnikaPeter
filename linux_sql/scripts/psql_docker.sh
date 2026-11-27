@@ -47,7 +47,7 @@ case $cmd in
     docker container $cmd jrvs-psql
     container_status=$?
 
-  if [[ $container_status -eq 1 && $cmd == 'start' ]]; then
+  if [ $container_status -eq  1 ] && [ $cmd == 'start' ]; then
      echo "Create a container!"
      exit 1
   fi
