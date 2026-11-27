@@ -19,7 +19,7 @@ case $cmd in
 
     # Check if the container is already created
     if [ $container_status -eq 0 ]; then
-      echo 'Container already exists'
+      echo 'Container already exists!'
       exit 1
     fi
 
@@ -39,32 +39,47 @@ case $cmd in
   ;;
 
   start|stop)
-  echo "checking if the container jrvs-psql is created or not:"
-    docker container ls -a -f name=jrvs-psql
-    container_status=$?
+    echo "checking if the container jrvs-psql is created or not:"
+      docker container ls -a -f name=jrvs-psql
+      container_status=$?
 
-  echo "Starting/stop the container:"
-    docker container $cmd jrvs-psql
-    container_status=$?
+    echo "Starting/stop the container:"
+      docker container $cmd jrvs-psql
+      container_status=$?
 
-  if [ $container_status -eq  1 ] && [ $cmd == 'start' ]; then
-     echo "Create a container!"
-     exit 1
-  fi
+    if [ $container_status -eq  1 ] && [ $cmd == 'start' ]; then
+       echo "Create a container!"
+       exit 1
+    fi
+    if [ $container_status -eq  1 ] && [ $cmd == 'stop' ]; then
+         echo "Create a container!"
+         exit 1
+      fi
 
+    echo "Show container status? (y/n)"
+    read input2
 
-  echo "Checking container status:"
-  docker container inspect jrvs-psql
-    #container_status=$?
+    if [ $input2 == 'y' ]; then
+      docker container inspect jrvs-psql
+    fi
 
-    #if [ $container_status -eq 0 ]; then
-     # echo "Sucessful"
-    #fi
+    if [ $input2 == 'n' ]; then
+      continue
+    fi
 
-    #if [ $cmd == 'stop' ]; then
-     # docker container rm jrvs-psql
-      #echo jrvs-psql container stop and removed
-    #fi
+    if [ $cmd == 'stop' ]; then
+
+      echo "Remove container? (y/n)"
+      read input
+        if [ $input == 'y' ]; then
+          docker container rm jrvs-psql
+          echo 'Container removed'
+        fi
+        if [ $input == 'n' ]; then
+          exit 0
+        fi
+
+    fi
     ;;
 
   *)
@@ -73,4 +88,3 @@ case $cmd in
 	exit 1
 	;;
 esac
-
