@@ -45,17 +45,25 @@ case $cmd in
 
   echo "Starting/stop the container:"
     docker container $cmd jrvs-psql
-
-  echo "Checking container status:"
-    docker container inspect jrvs-psql
     container_status=$?
 
-    if [ $container_status -eq 0 ]; then
-      echo "Sucessful"
-    fi
+  if [[ $container_status -eq 1 && $cmd == 'start' ]]; then
+     echo "Create a container!"
+     exit 1
+  fi
+
+
+  #echo "Checking container status:"
+   # docker container inspect jrvs-psql
+    #container_status=$?
+
+    #if [ $container_status -eq 0 ]; then
+     # echo "Sucessful"
+    #fi
+
     if [ $cmd == 'stop' ]; then
       docker container rm jrvs-psql
-      echo jrvs-psql container removed
+      echo jrvs-psql container stop and removed
     fi
     ;;
 
